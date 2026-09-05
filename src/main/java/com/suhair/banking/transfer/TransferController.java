@@ -1,5 +1,6 @@
 package com.suhair.banking.transfer;
 
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,7 @@ public class TransferController {
     }
 
     @PostMapping("/transfer")
-    public String transfer(@RequestBody TransferRequest request) {
+    public String transfer(@Valid @RequestBody TransferRequest request) {
         transferService.transfer(request.from(), request.to(), request.amount());
         return "Success";
     }
