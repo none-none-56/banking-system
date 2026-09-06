@@ -1,5 +1,6 @@
 package com.suhair.banking.account;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -13,9 +14,16 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AccountRepository {
     private final Map<String, Account> accounts = new ConcurrentHashMap<>();
 
+    // Spring uses this one
+    @Autowired
     public AccountRepository() {
         accounts.put("acc1", new Account("acc1", new BigDecimal("1000.00")));
         accounts.put("acc2", new Account("acc2", new BigDecimal("5000.00")));
+    }
+
+    // Used by tests so they can set up the exact balances they assert on
+    public AccountRepository(List<Account> seedAccounts) {
+        seedAccounts.forEach(a -> accounts.put(a.getId(), a));
     }
 
     public Optional<Account> findById(String id) {

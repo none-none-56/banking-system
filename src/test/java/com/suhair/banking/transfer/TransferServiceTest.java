@@ -1,5 +1,6 @@
 package com.suhair.banking.transfer;
 
+import com.suhair.banking.account.Account;
 import com.suhair.banking.account.AccountNotFoundException;
 import com.suhair.banking.account.AccountRepository;
 import com.suhair.banking.account.InsufficientFundsException;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,7 +19,9 @@ class TransferServiceTest {
 
     @BeforeEach
     void setUp() {
-        accounts = new AccountRepository();
+        accounts = new AccountRepository(List.of(
+                new Account("acc1", new BigDecimal("1000.00")),
+                new Account("acc2", new BigDecimal("5000.00"))));
         service = new TransferService(accounts);
     }
 
