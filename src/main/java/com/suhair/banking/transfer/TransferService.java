@@ -23,7 +23,20 @@ public class TransferService {
         Account to = accounts.findById(toId)
                 .orElseThrow(() -> new AccountNotFoundException(toId));
 
-        from.withdraw(amount);
-        to.deposit(amount);
+        // Locking
+
+        // Lock both accounts in the same order every time, sorted by id.
+        // Otherwise a transfer acc1 -> acc2 and one going acc2 -> acc1 can each
+        // grab their first lock and wait forever for the other one. Sorting means
+        // everyone takes acc1's lock first, so that can't happen.
+        Account firstLock  = from.getId().compareTo(to.getId()) < 0 ? from : to;
+        Account secondLock = (firstLock == from) ? to : from;
+
+        synchronized (firstLock) {
+            synchronized (secondLock) {
+                from.withdraw(amount);
+                to.deposit(amount);
+            }
+        }
     }
 }
