@@ -15,7 +15,7 @@ public class AccountRepository {
 
     public AccountRepository() {
         accounts.put("acc1", new Account("acc1", new BigDecimal("1000.00")));
-        accounts.put("acc2", new Account("acc2", new BigDecimal("500.00")));
+        accounts.put("acc2", new Account("acc2", new BigDecimal("5000.00")));
     }
 
     public Optional<Account> findById(String id) {
