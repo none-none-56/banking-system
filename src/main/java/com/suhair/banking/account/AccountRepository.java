@@ -21,6 +21,11 @@ public class AccountRepository {
         accounts.put("acc2", new Account("acc2", new BigDecimal("5000.00")));
     }
 
+    public AccountRepository(BigDecimal sourceBalance, BigDecimal destinationBalance) {
+        accounts.put("acc1", new Account("acc1", sourceBalance));
+        accounts.put("acc2", new Account("acc2", destinationBalance));
+    }
+
     // Used by tests so they can set up the exact balances they assert on
     public AccountRepository(List<Account> seedAccounts) {
         seedAccounts.forEach(a -> accounts.put(a.getId(), a));
